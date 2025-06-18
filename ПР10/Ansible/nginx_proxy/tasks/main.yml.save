@@ -1,0 +1,14 @@
+---
+# tasks file for nginx_proxy
+
+- name: Установка Nginx
+  apt:
+    name: "nginx"
+    state: present
+
+- name: Подмена конфиг файла 
+  ansible.builtin.template:
+    src: index.j2
+    dest: /var/www/html/index.nginx-debian.html
+  when: "'nginx_web' in group_names" # Выполняем только на хостах подгруппы "nginx_web"
+  notify: "Nginx Reloader"

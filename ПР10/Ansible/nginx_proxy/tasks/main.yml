@@ -1,0 +1,14 @@
+---
+# tasks file for nginx_proxy
+
+- name: Установка Nginx
+  apt:
+    name: "nginx"
+    state: present
+
+- name: Подмена конфиг-файла
+  ansible.builtin.template:
+    src: conf.j2
+    dest: /etc/nginx/nginx.conf
+  when: "'nginx_proxy' in group_names" # Выполняем только на хосте подгруппы "nginx_proxy"
+  notify: "Nginx Reloader"

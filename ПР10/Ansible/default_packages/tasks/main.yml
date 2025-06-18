@@ -1,0 +1,14 @@
+---
+# tasks file for default_packages
+
+- name: Изменяем hostname машин
+  ansible.builtin.hostname: #Обновит автоматически, перезагрузка не требуется
+    name: "{{ inventory_hostname }}"
+  when: inventory_hostname != ansible_hostname
+
+- name: Установка программ
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ packages_to_install }}"

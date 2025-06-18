@@ -1,0 +1,21 @@
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream app_servers {
+        server 89.169.157.108:80;
+        server 46.21.245.102:80;
+    }
+
+    server {
+        listen 3000;
+        
+        location / {
+            proxy_pass http://app_servers;
+            #Отключаем хеширование браузера, чтобы наглядно увидеть балансировку методом round-robin
+            add_header Cache-Control "no-cache, no-store, must-revalidate";
+            add_header Pragma "no-cache";
+}
+    }
+}
